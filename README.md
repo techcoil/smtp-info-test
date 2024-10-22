@@ -1,41 +1,40 @@
-# php-smtp-tester
+# smtp-info-test
 
-A php CLI utility for validating SMTP Credentials using `PHPMailer` library
+A CLI utility for validating SMTP Credentials
 
-### Install
-
-#### For Development
-
-1. Clone the repository
-2. Run `$ composer install` to install dependencies`
-3. Execute with `$ php ./src/index.php --help`
-
-#### Global Installation
-
-1. Clone the repository
-2. Execute `$ bash ./build/install.sh`
-3. Run `$ php-smtp-mailer --help`
+## Use with docker
+    
+```bash
+docker run --rm -it techcoil/smtp-info-test [SMTP Connection String]
+```
 
 ### Usage
 
 ```
-Usage: test-smtp [OPTIONS...] [ARGUMENTS...]
+Usage: smtp-info-test [OPTIONS...] [ARGUMENTS...]
 
 Arguments:
   [connectionString]    URL Format [[SCHEME://][[USER[:PASSWORD]]@]HOST[:PORT]
 
 Options:
-  [-e|--encryption]    Encryption Type (None/TLS/SSL)
   [-f|--from]          Email address of the sender
-  [-H|--help]          Show help
+  [-t|--to]            Recipient for test email
   [-h|--host]          SMTP Server Host. Supports
+  [-e|--encryption]    Encryption Type (none/TLS/SSL)
+  [--no-auth]          Disable SMTP Authentication
+  [-u|--user]          SMTP Server User
   [-p|--password]      !!Unsafe!! SMTP Server Password
   [-p|--port]          Port number [Default: 25 for None encryption, 587 for TLS/SSL]
-  [-t|--to]            Recipient for test email
-  [-u|--user]          SMTP Server User
+  [-H|--help]          Show help
   [-v|--verbosity]     Verbosity level
   [-V|--version]       Show version
 
-Legend: <required> [optional] variadic...
-
 ```
+
+### Install from Source
+Requires php 8.x and [composer](https://getcomposer.org/download)
+
+1. Clone the repository `git clone https://github.com/techcoil/smtp-info-test.git && cd smtp-info-test`
+2. Run `composer install` to install dependencies
+3. Install with `bash ./build/install.sh`
+4. Run `$ smtp-info-test --help`w

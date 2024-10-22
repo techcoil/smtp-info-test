@@ -1,12 +1,12 @@
 {
-  "name": "tech-marketing/php-smtp-tester",
+  "name": "techcoil/smtp-info-test",
   "description": "CLI Utility for testing SMTP credentials",
   "version": "0.2.0",
   "type": "project",
   "require": {
     "php": ">=8.0",
-    "phpmailer/phpmailer": "^6.9.1",
-    "adhocore/cli": "^v1.0.0"
+    "phpmailer/phpmailer": "^6.9.2",
+    "adhocore/cli": "^v1.7.2"
   },
   "license": "MIT",
   "autoload": {

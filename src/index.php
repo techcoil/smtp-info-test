@@ -1,5 +1,4 @@
 <?php
-use App\Commands\TestSMTP;
 
 if (php_sapi_name() !== 'cli') {
     echo 'This is a CLI program. Sayonara!';
@@ -14,8 +13,8 @@ if(version_compare(PHP_VERSION, '8.0.0', '<'))
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$app = new Ahc\Cli\Application('SMTPTester', 'v0.0.1');
-$app->add(new TestSMTP(), '', true);
+$app = new Ahc\Cli\Application('SmtpInfoTest', 'v0.0.1');
+$app->add(new \App\Commands\SmtpInfoTest(), '', true);
 
 $banner = <<<txt
 

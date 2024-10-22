@@ -10,7 +10,7 @@ use Ahc\Cli\Output\Writer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class TestSMTP extends Command
+class SmtpInfoTest extends Command
 {
 
     private static array $encryptionOptions = [
@@ -21,15 +21,16 @@ class TestSMTP extends Command
 
     public function __construct()
     {
-        parent::__construct('test-smtp-credentials');
+        parent::__construct('smtp-info-test');
 
         $this->argument('connectionString', 'URL Format [[SCHEME://][[USER[:PASSWORD]]@]HOST[:PORT]');
 
-        $this->option('-h --host', 'SMTP Server Host. Supports ', 'strval');
+        $this->option('-h --host', 'SMTP Server Host.', 'strval');
         $this->option('-u --user', 'SMTP Server User', 'strval');
         $this->option('-p --password', '!!Unsafe!! SMTP Server Password', 'strval');
+        $this->option('-n --no-auth', 'Disable SMTP Authentication', 'boolval');
         $this->option('-e --encryption', sprintf('Encryption Type (%s)', implode('/', array_values(self::$encryptionOptions))), 'strval');
-        $this->option('-p --port', 'Port number [Default: 25 for None encryption, 587 for TLS/SSL]', 'intval');
+        $this->option('-p --port', 'Port number [Default: 25 for Insecure, 587 for TLS, 465 for SSL]', 'intval');
         $this->option('-f --from', 'Email address of the sender', 'strval');
         $this->option('-t, --to', 'Recipient for test email', 'strval');
     }
@@ -70,7 +71,7 @@ class TestSMTP extends Command
         );
     }
 
-    public function execute($connectionString, $host, $user, $password, $encryption, $port, $from, $to): void
+    public function execute($connectionString, $host, $user, $password, $encryption, $port, $from, $to, $auth): void
     {
         /**
          * @var Interactor | Writer | Reader $io
@@ -82,9 +83,16 @@ class TestSMTP extends Command
             list($host, $user, $password, $encryption, $port) = $this->parseConnectionString($connectionString, $host, $user, $password, $encryption, $port);
         }
 
+        $authenticate = $auth;
+
         $host = $this->readParam('SMTP Host', $host);
-        $user = $this->readParam('SMTP User', $user);
-        $password = $this->readParam('SMTP Password', $password, null, true);
+        if($authenticate) {
+            $user = $this->readParam('SMTP User', $user);
+            if($user === '') {
+                $authenticate = false;
+            }
+            $password = $this->readParam('SMTP Password', $password, null, true);
+        }
         if (!$encryption) {
             $choice = $io->choice('Encryption: ', self::$encryptionOptions, 'TLS');
             $encryption = array_key_exists($choice, self::$encryptionOptions) ? self::$encryptionOptions[$choice] : $choice;
@@ -96,15 +104,17 @@ class TestSMTP extends Command
 
         $mailer = new PHPMailer();
         $mailer->isSMTP();
-        $mailer->SMTPAuth = true;
+        $mailer->SMTPAuth = $authenticate;
         $mailer->Host = $host;
-        $mailer->Username = $user;
-        $mailer->Password = $password;
+        if($authenticate) {
+            $mailer->Username = $user;
+            $mailer->Password = $password;
+        }
         $mailer->Port = $port;
         $mailer->SMTPSecure = self::getSmtpSecureValue($encryption);
 
-//        $mailer->Subject = 'Test Email from PHP SMTP Tester';
-//        $mailer->Body = '.';
+        $mailer->Subject = 'Test Email from SMTP Info Test';
+        $mailer->Body = '.';
 
         try {
             $mailer->clearAllRecipients();
@@ -132,7 +142,7 @@ class TestSMTP extends Command
     {
         $io = $this->app()->io();
 
-        if (!is_string($value) || trim($value) === '') {
+        if (!is_scalar($value) || trim($value) === '') {
             if (is_callable($default)) {
                 $default = call_user_func($default);
             }
@@ -141,11 +151,11 @@ class TestSMTP extends Command
         return $value;
     }
 
-    protected function getDefaultEmail(): string
+    protected function getDefaultEmail(): string | null
     {
         $shell = new Shell('git config --global user.email');
         $shell->execute();
-        return trim($shell->getOutput());
+        return $shell->getExitCode() === 0 ? trim($shell->getOutput()) : null;
     }
 
 

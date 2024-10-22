@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cbaf9c016707ff427afe70e380ed43b",
+    "content-hash": "2129552d268e1fe64b9ef22ba1a38a89",
     "packages": [
         {
             "name": "adhocore/cli",
-            "version": "v1.7.1",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adhocore/php-cli.git",
-                "reference": "3fde60a838912e71c82ed0f48048685dc32dbc77"
+                "reference": "57834cbaa4fb68cda849417ab86577fba2b15298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/3fde60a838912e71c82ed0f48048685dc32dbc77",
-                "reference": "3fde60a838912e71c82ed0f48048685dc32dbc77",
+                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/57834cbaa4fb68cda849417ab86577fba2b15298",
+                "reference": "57834cbaa4fb68cda849417ab86577fba2b15298",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
             ],
             "support": {
                 "issues": "https://github.com/adhocore/php-cli/issues",
-                "source": "https://github.com/adhocore/php-cli/tree/v1.7.1"
+                "source": "https://github.com/adhocore/php-cli/tree/v1.7.2"
             },
             "funding": [
                 {
@@ -74,20 +74,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-28T08:30:12+00:00"
+            "time": "2024-09-05T00:08:47+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.9.1",
+            "version": "v6.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "039de174cd9c17a8389754d3b877a2ed22743e18"
+                "reference": "a7b17b42fa4887c92146243f3d2f4ccb962af17c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/039de174cd9c17a8389754d3b877a2ed22743e18",
-                "reference": "039de174cd9c17a8389754d3b877a2ed22743e18",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a7b17b42fa4887c92146243f3d2f4ccb962af17c",
+                "reference": "a7b17b42fa4887c92146243f3d2f4ccb962af17c",
                 "shasum": ""
             },
             "require": {
@@ -147,7 +147,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.2"
             },
             "funding": [
                 {
@@ -155,16 +155,18 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-25T22:23:28+00:00"
+            "time": "2024-10-09T10:07:50+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {
+        "php": ">=8.0"
+    },
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

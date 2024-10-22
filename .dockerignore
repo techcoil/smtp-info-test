@@ -1,0 +1,8 @@
+README.md
+release
+.github
+.git*
+vendor
+.idea
+.dockerignore
+Dockerfile

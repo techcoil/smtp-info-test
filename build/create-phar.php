@@ -8,10 +8,9 @@ if (ini_get('phar.readonly')) {
 }
 
 chdir(dirname(__DIR__));
+$file_name = 'smtp-info-test.phar';
 
-$file_name = 'php-smtp-tester.phar';
-
-$dir = './release';
+$dir = getcwd() .'/release';
 
 $pharFile = $dir . '/' . $file_name;
 
@@ -23,12 +22,13 @@ if (!is_dir($dir)) {
 if (file_exists($pharFile)) {
     unlink($pharFile);
 }
+
 if (file_exists($pharFile . '.gz')) {
     unlink($pharFile . '.gz');
 }
 
 // create phar
-$p = new Phar($pharFile);
+$p = new Phar($pharFile, 0, $file_name);
 
 $p->startBuffering();
 
@@ -43,6 +43,9 @@ $p->compress(Phar::GZ);
 
 $p->setStub($stub);
 $p->stopBuffering();
+
+echo $p;
+
 
 
 echo "$file_name successfully created";
@@ -65,6 +68,8 @@ class AppFilesIterator extends RecursiveFilterIterator
 
     private static array $exclude = [
         '.git*',
+        '.github*',
+        '.docker*',
         '*.md',
         'tests',
         '*.zsh',
@@ -89,7 +94,8 @@ class AppFilesIterator extends RecursiveFilterIterator
 
     protected function isDot($path): bool
     {
-        return preg_match('/^(?:.*\/)?\.{1,2}\/?$/', $path) !== false;
+        $isDot = boolval(preg_match('/^(?:.*\/)?\.{1,2}\/?$/isU', $path));
+        return $isDot;
     }
 
     protected function isIncluded(SplFileInfo $file): bool
